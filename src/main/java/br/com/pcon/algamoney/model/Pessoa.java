@@ -2,6 +2,7 @@ package br.com.pcon.algamoney.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "categoria")
-public class Categoria implements Serializable {
+@Table(name = "pessoa")
+public class Pessoa implements Serializable {
 	
 	/**	 serialVersionUID	 */
 	private static final long serialVersionUID = 1L;
@@ -24,8 +25,13 @@ public class Categoria implements Serializable {
 
 	@NotBlank
 	@NotNull
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 100)
 	private String nome;
+	
+	private boolean ativo;
+
+	@Embedded
+	private Endereco endereco;
 
 	public Long getCodigo() {
 		return codigo;
@@ -41,6 +47,22 @@ public class Categoria implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }
