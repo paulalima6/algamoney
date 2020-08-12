@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import br.com.pcon.algamoney.exceptionhandler.Erro;
 import br.com.pcon.algamoney.model.Lancamento;
 import br.com.pcon.algamoney.repository.LancamentoRepository;
 import br.com.pcon.algamoney.repository.filter.LancamentoFilter;
+import br.com.pcon.algamoney.repository.projection.ResumoLancamento;
 import br.com.pcon.algamoney.service.LancamentoService;
 import br.com.pcon.algamoney.service.exception.PessoaInexistenteOuInativaException;
 
@@ -54,6 +56,12 @@ public class LancamentoResource {
 	@GetMapping
 	public Page<Lancamento> pesquisar(LancamentoFilter filter, Pageable pageable) {
 		return lancamentoRepository.filtrar(filter, pageable);
+	}
+	
+	@GetMapping(params="resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resumir(LancamentoFilter filter, Pageable pageable) {
+		return lancamentoRepository.resumir(filter, pageable);
 	}
 
 	@GetMapping("/{codigo}")

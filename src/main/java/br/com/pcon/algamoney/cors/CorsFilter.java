@@ -10,15 +10,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import br.com.pcon.algamoney.config.property.AlgamoneyApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
-	private String origemPermitida = "http://localhost:8000"; //TODO Configurar para diferentes ambientes
+	@Autowired
+	private AlgamoneyApiProperty algamoneyApiProperty;
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -26,10 +31,10 @@ public class CorsFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 
-		resp.setHeader("Access-Controll-Allow-Origin", origemPermitida);
+		resp.setHeader("Access-Controll-Allow-Origin", algamoneyApiProperty.getOrigemPermitida());
 		resp.setHeader("Access-Controll-Allow-Credentials", "true");	
 
-		if("OPTIONS".equals(req.getMethod()) && origemPermitida.equals(req.getHeader("Origin"))) {
+		if("OPTIONS".equals(req.getMethod()) && algamoneyApiProperty.getOrigemPermitida().equals(req.getHeader("Origin"))) {
 			
 			resp.setHeader("Access-Controll-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
 			resp.setHeader("Access-Controll-Allow-Headers", "Authorization, Content-Type, Accept");
