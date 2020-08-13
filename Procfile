@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar -Dspring.profiles.active=prod
+web: java $JAVA_OPTS -jar -Dspring.profiles.active=prod target/algamoney*.jar
