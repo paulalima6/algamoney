@@ -117,12 +117,36 @@
 
 	<build>
 		<plugins>
-			<plugin>
+<!-- 			<plugin> -->
 <!-- 				<groupId>org.springframework.boot</groupId> -->
 <!-- 				<artifactId>spring-boot-maven-plugin</artifactId> -->
+<!-- 			</plugin> -->
+			<plugin> 
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+<!--                 <version>3.1.0</version> -->
+                <configuration>
+					<archive>
+                    	<manifest>
+	                    <!-- give full qualified name of your main class-->
+							<mainClass>com.pcon.algamoney.AlgamoneyApiApplication</mainClass>
+                    </manifest>
+                  </archive>
+                </configuration>
+		    </plugin>
+			<plugin>
 				<groupId>org.bsc.maven</groupId>
 				<artifactId>maven-processor-plugin</artifactId>
 				<version>3.1.0</version>
+				<dependencies>
+					<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<!-- <scope>provided</scope> -->
+						<version>5.4.9.Final</version>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>process</id>
@@ -137,16 +161,6 @@
 						</configuration>
 					</execution>
 				</executions>
-				<dependencies>
-					<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
-					<dependency>
-						<groupId>org.hibernate</groupId>
-						<artifactId>hibernate-jpamodelgen</artifactId>
-						<!-- <scope>provided</scope> -->
-						<version>5.4.9.Final</version>
-					</dependency>
-				</dependencies>
-<!-- 				<version>4.2-jdk8</version> -->
 			</plugin>
 		</plugins>
 	</build>
