@@ -44,7 +44,12 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter  {
 				.antMatchers("/categorias").permitAll()
 				.anyRequest().authenticated()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure()
 				.and().csrf().disable();
+		
+//		http.requiresChannel()
+//	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+//	      .requiresSecure();
 	}
 
 	public PasswordEncoder passwordEncoder() {
